@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<title>Questions for us ❤️</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #1a0a1e;
+    --bg2:       #230d28;
+    --card:      #2a1030;
+    --border:    rgba(200, 140, 180, 0.18);
+    --glow:      rgba(220, 130, 170, 0.12);
+    --rose:      #e8a4b8;
+    --lavender:  #c4a8d4;
+    --cream:     #f5e6ea;
+    --mauve:     #9b6b82;
+    --muted:     rgba(245, 230, 234, 0.45);
+    --btn-bg:    rgba(200, 140, 170, 0.12);
+    --btn-hover: rgba(200, 140, 170, 0.25);
+    --shadow:    0 8px 40px rgba(0,0,0,0.5);
+    --radius:    20px;
+  }
+
+  body.light {
+    --bg:        #fdf0f4;
+    --bg2:       #f7e4eb;
+    --card:      #fff5f7;
+    --border:    rgba(180, 100, 140, 0.2);
+    --glow:      rgba(220, 130, 170, 0.08);
+    --rose:      #c0507a;
+    --lavender:  #8b5a9e;
+    --cream:     #3a1a28;
+    --mauve:     #a0607a;
+    --muted:     rgba(80, 30, 55, 0.5);
+    --btn-bg:    rgba(180, 100, 140, 0.1);
+    --btn-hover: rgba(180, 100, 140, 0.22);
+    --shadow:    0 8px 40px rgba(180,100,140,0.12);
+  }
+
+  html { height: 100%; }
+
+  body {
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: background 0.4s, color 0.4s;
+    overflow-x: hidden;
+  }
+
+  /* ── ambient background ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 10%, rgba(180,80,140,0.13) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 80%, rgba(120,60,180,0.10) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 480px;
+    padding: 0 16px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  /* ── header ── */
+  header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 0 10px;
+  }
+
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--rose);
+    letter-spacing: 0.01em;
+  }
+
+  .logo span { color: var(--lavender); }
+
+  .theme-btn {
+    background: var(--btn-bg);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 50px;
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background 0.2s, color 0.2s;
+  }
+  .theme-btn:hover { background: var(--btn-hover); color: var(--cream); }
+
+  /* ── categories ── */
+  .cats {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    margin: 18px 0 0;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .cat-btn {
+    background: var(--btn-bg);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 50px;
+    padding: 7px 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .cat-btn:hover { background: var(--btn-hover); color: var(--cream); }
+  .cat-btn.active {
+    background: linear-gradient(135deg, rgba(232,164,184,0.3), rgba(196,168,212,0.3));
+    border-color: rgba(232,164,184,0.5);
+    color: var(--rose);
+    box-shadow: 0 0 14px rgba(232,164,184,0.15);
+  }
+
+  /* ── question card ── */
+  .card-wrap {
+    width: 100%;
+    margin: 22px 0 0;
+    position: relative;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px 30px 32px;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow), 0 0 60px var(--glow);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* inner glow rim */
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(232,164,184,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cat-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mauve);
+    margin-bottom: 22px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+  }
+
+  .question-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.35rem, 5vw, 1.65rem);
+    font-weight: 300;
+    line-height: 1.55;
+    text-align: center;
+    color: var(--cream);
+    letter-spacing: 0.01em;
+    will-change: opacity, transform;
+    transition: opacity 0.35s cubic-bezier(.4,0,.2,1), transform 0.35s cubic-bezier(.4,0,.2,1);
+  }
+
+  .question-text.fade-out {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+
+  .question-text.fade-in {
+    animation: fadeIn 0.4s cubic-bezier(.4,0,.2,1) forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .empty-state {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.7;
+  }
+
+  /* ── card action buttons ── */
+  .card-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: center;
+  }
+
+  .act-btn {
+    background: var(--btn-bg);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 50px;
+    padding: 9px 18px;
+    font-size: 0.8rem;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .act-btn:hover { background: var(--btn-hover); color: var(--cream); }
+  .act-btn.saved {
+    border-color: rgba(232,164,184,0.5);
+    color: var(--rose);
+    background: rgba(232,164,184,0.12);
+  }
+
+  /* ── main CTA ── */
+  .cta-btn {
+    margin-top: 24px;
+    width: 100%;
+    background: linear-gradient(135deg, rgba(232,164,184,0.2), rgba(196,168,212,0.2));
+    border: 1px solid rgba(232,164,184,0.35);
+    border-radius: 60px;
+    color: var(--rose);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    padding: 18px;
+    cursor: pointer;
+    transition: all 0.25s;
+    box-shadow: 0 4px 24px rgba(232,164,184,0.1);
+  }
+  .cta-btn:hover {
+    background: linear-gradient(135deg, rgba(232,164,184,0.32), rgba(196,168,212,0.32));
+    box-shadow: 0 4px 32px rgba(232,164,184,0.22);
+    transform: translateY(-1px);
+  }
+  .cta-btn:active { transform: translateY(0); }
+
+  /* ── saved section ── */
+  .saved-toggle {
+    margin-top: 34px;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+    transition: color 0.2s;
+    letter-spacing: 0.05em;
+  }
+  .saved-toggle:hover { color: var(--rose); }
+
+  .saved-section {
+    width: 100%;
+    margin-top: 14px;
+    display: none;
+  }
+  .saved-section.open { display: block; }
+
+  .saved-title {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mauve);
+    margin-bottom: 12px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .saved-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .saved-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .saved-item p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--cream);
+    flex: 1;
+  }
+
+  .remove-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    transition: color 0.2s;
+    padding: 2px;
+  }
+  .remove-btn:hover { color: var(--rose); }
+
+  .saved-empty {
+    font-size: 0.9rem;
+    color: var(--muted);
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  /* ── toast ── */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--rose);
+    border-radius: 50px;
+    padding: 10px 22px;
+    font-size: 0.82rem;
+    font-family: 'Inter', sans-serif;
+    z-index: 1000;
+    transition: transform 0.3s cubic-bezier(.4,0,.2,1), opacity 0.3s;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+
+  /* ── footer ── */
+  footer {
+    margin-top: 40px;
+    color: rgba(180,120,150,0.3);
+    font-size: 0.7rem;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.08em;
+    text-align: center;
+    padding-bottom: 10px;
+  }
+
+  /* ── scrollbar ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(232,164,184,0.2); border-radius: 4px; }
+
+  @media (max-width: 360px) {
+    .card { padding: 28px 20px 26px; }
+    .cats { gap: 6px; }
+    .cat-btn { font-size: 0.72rem; padding: 6px 11px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="logo">Questions for <span>us</span> ❤️</div>
+    <button class="theme-btn" id="themeBtn" title="Сменить тему">🌙</button>
+  </header>
+
+  <!-- Categories -->
+  <div class="cats" id="cats">
+    <button class="cat-btn active" data-cat="easy">🧠 Легко</button>
+    <button class="cat-btn" data-cat="us">❤️ Про нас</button>
+    <button class="cat-btn" data-cat="deep">🧩 Глубже</button>
+    <button class="cat-btn" data-cat="closer">😈 Ближе</button>
+  </div>
+
+  <!-- Card -->
+  <div class="card-wrap">
+    <div class="card">
+      <div class="cat-label" id="catLabel">🧠 Легко</div>
+      <div class="question-text" id="questionText">
+        <span class="empty-state">Нажми кнопку ниже, чтобы получить вопрос ✨</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card actions -->
+  <div class="card-actions" id="cardActions" style="opacity:0;pointer-events:none;">
+    <button class="act-btn" id="saveBtn">❤️ Сохранить</button>
+    <button class="act-btn" id="copyBtn">📋 Копировать</button>
+  </div>
+
+  <!-- Main CTA -->
+  <button class="cta-btn" id="ctaBtn">🎲 Другой вопрос</button>
+
+  <!-- Saved toggle -->
+  <button class="saved-toggle" id="savedToggle">♡ Сохранённые вопросы <span id="savedCount"></span></button>
+
+  <!-- Saved section -->
+  <div class="saved-section" id="savedSection">
+    <div class="saved-title">Ваши сохранённые вопросы</div>
+    <div class="saved-list" id="savedList"></div>
+  </div>
+
+  <footer>made with love · just for two</footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─────────────────────────────
+//  QUESTIONS DATABASE
+// ─────────────────────────────
+const QUESTIONS = {
+  easy: [
+    "С чем я у тебя ассоциируюсь?",
+    "Какой момент со мной самый тёплый?",
+    "Что во мне ты заметила первым?",
+    "Какое первое впечатление у тебя было обо мне?",
+    "Что во мне тебя удивило больше всего?",
+    "Какой мой жест тебе нравится?",
+    "Какой мой взгляд тебе запомнился?",
+    "В какой момент ты впервые почувствовала интерес ко мне?",
+    "Я больше спокойный или хаотичный для тебя?",
+    "С чем ты бы сравнила моё настроение?",
+    "Какой у нас самый милый момент?",
+    "Что тебе во мне кажется самым искренним?",
+    "Когда ты чувствуешь ко мне тепло?",
+    "Какое моё сообщение тебе больше всего понравилось?",
+    "Что во мне вызывает у тебя улыбку?",
+    "Какой мой поступок тебе запомнился?",
+    "Что тебе во мне кажется забавным?",
+    "Я больше про действия или слова?",
+    "Какой мой минус ты считаешь милым?",
+    "Что ты чаще всего вспоминаешь обо мне?",
+    "Как ты думаешь, чем я выделяюсь?",
+    "С кем я у тебя ассоциируюсь из фильмов?",
+    "Если бы я был временем года — каким?",
+    "Если бы я был цветом — каким?",
+    "Если бы я был песней — какой?",
+    "Если бы мы были фильмом — каким?",
+    "Если бы мы были парой из сериала — кем?",
+    "Как ты думаешь, я романтик или реалист?",
+    "Я больше логика или эмоции?",
+    "Что во мне тебе кажется «своим»?",
+    "Какой момент ты бы повторила?",
+    "Какое моё качество ты ценишь больше всего?",
+    "Что ты поняла обо мне со временем?",
+    "Как ты думаешь, я легко читаемый человек или нет?",
+    "Что тебя во мне расслабляет?",
+    "Что тебя во мне настораживает — в хорошем смысле?",
+    "Как ты думаешь, я умею любить?",
+    "Что тебе во мне кажется редким?",
+    "Когда ты впервые почувствовала симпатию?",
+    "Какой мой стиль общения тебе нравится?",
+    "Что тебе в моём характере ближе всего?",
+    "Если бы меня описывала одна фраза — какой была бы она?",
+    "Есть ли момент, когда ты поняла, что я особенный для тебя?",
+    "Какое слово лучше всего описывает тебя рядом со мной?",
+    "Что я делаю такого, что ты замечаешь и ценишь, но не говоришь?",
+    "Если бы мы встретились в другой жизни — где и как это произошло бы?",
+    "Что тебе во мне кажется неожиданно глубоким?",
+    "Когда ты видишь меня счастливым — что ты чувствуешь?",
+    "Какой мой смех ты любишь больше всего?",
+    "Что тебе нравится в том, как я смотрю на тебя?",
+    "Если бы мы были в книге — в каком жанре?",
+    "Что первое ты вспоминаешь, когда думаешь обо мне?",
+    "Есть ли что-то во мне, что ты не ожидала?",
+    "Какой звук или голос у меня ты любишь больше всего?",
+    "Что в нас двоих выглядит со стороны по-особенному?",
+    "Какое моё слово или фраза у тебя «осела» в памяти?"
+  ],
+  us: [
+    "Что тебе со мной даёт ощущение безопасности?",
+    "Чего тебе не хватает в наших отношениях?",
+    "Что я делаю правильно как партнёр?",
+    "Что я делаю неправильно?",
+    "Что бы ты хотела, чтобы я делал чаще?",
+    "Что бы ты хотела, чтобы я делал реже?",
+    "В какие моменты ты чувствуешь, что мы близки?",
+    "Когда ты чувствуешь дистанцию между нами?",
+    "Что нас сближает больше всего?",
+    "Что нас иногда отдаляет?",
+    "Как ты понимаешь, что я тебя люблю?",
+    "Как ты понимаешь, что ты любишь меня?",
+    "Что для тебя значит «мы»?",
+    "Как ты видишь нас через год?",
+    "А через 5 лет?",
+    "Что в наших отношениях тебя радует больше всего?",
+    "Что тебя иногда напрягает, но ты не говоришь?",
+    "Что тебе важно в нашем общении?",
+    "Какой у нас самый сильный момент как пары?",
+    "Какой у нас самый слабый момент?",
+    "Что ты бы хотела улучшить между нами?",
+    "Что ты боишься потерять в наших отношениях?",
+    "Что ты считаешь нашей сильной стороной?",
+    "В чём мы хорошо дополняем друг друга?",
+    "Где мы часто не понимаем друг друга?",
+    "Что ты думаешь о нашей совместимости?",
+    "Ты чувствуешь, что я тебя слышу?",
+    "Ты чувствуешь, что я тебя понимаю?",
+    "Что тебе важно, чтобы я начал делать иначе?",
+    "Есть ли что-то, что ты не говоришь мне до конца?",
+    "Что тебя во мне раздражает, но ты терпишь?",
+    "Что ты хотела бы во мне изменить?",
+    "Всё ли тебя во мне устраивает?",
+    "Если честно, ты счастлива со мной?",
+    "Что делает тебя рядом со мной спокойной?",
+    "Когда ты чувствуешь, что мы команда?",
+    "Что ты ценишь во мне как в человеке?",
+    "Какой момент в наших отношениях был самым важным?",
+    "Что ты считаешь переломным моментом между нами?",
+    "Что бы ты сказала «нам» из прошлого?",
+    "Что ты хочешь сохранить в нас навсегда?",
+    "Что ты хочешь, чтобы я никогда не делал?",
+    "Что тебя делает увереннее в нас?",
+    "Что тебя делает неуверенной?",
+    "Какой у нас главный урок как пары?",
+    "Что тебе хотелось бы пережить вместе, чего ещё не было?",
+    "Если бы ты писала письмо нам через 10 лет — что бы сказала?",
+    "Какая наша привычка тебе особенно дорога?",
+    "Что в нас двоих тебе кажется уникальным?",
+    "Есть ли момент, который ты хотела бы вернуть и прожить снова?",
+    "Что тебе сложнее всего говорить мне?",
+    "Когда ты чувствуешь: «я на месте»?",
+    "Что ты хочешь, чтобы я понял о наших отношениях?",
+    "Что тебе даёт силы в нас?",
+    "Что тебе кажется самым живым между нами?",
+    "Как ты понимаешь, что мы идём в одну сторону?"
+  ],
+  deep: [
+    "Что для тебя любовь в реальности?",
+    "Как ты понимаешь, что человек «твой»?",
+    "Ты больше про стабильность или эмоции?",
+    "Что для тебя предательство?",
+    "Как ты переживаешь боль в отношениях?",
+    "Ты умеешь говорить о чувствах сразу или копишь?",
+    "Что тебе сложнее: доверять или отпускать?",
+    "Как ты проявляешь любовь?",
+    "Как ты хочешь, чтобы тебя любили?",
+    "Что тебя ранит сильнее всего?",
+    "Что тебя успокаивает в человеке?",
+    "Как ты выглядишь, когда любишь?",
+    "Ты веришь в «идеальную пару»?",
+    "Что для тебя главное в отношениях?",
+    "Как ты понимаешь, что отношения «живые»?",
+    "Что тебя делает эмоционально ближе?",
+    "Что тебя отдаляет от людей?",
+    "Ты быстро привязываешься или нет?",
+    "Что ты боишься в любви?",
+    "Что для тебя «безопасность» в отношениях?",
+    "Какой опыт повлиял на тебя больше всего?",
+    "Ты легко прощаешь?",
+    "Что ты никогда не простишь?",
+    "Как ты справляешься с ревностью?",
+    "Ты больше рациональная или эмоциональная в отношениях?",
+    "Что тебе важно в партнёре кроме любви?",
+    "Что делает отношения крепкими?",
+    "Что их разрушает?",
+    "Ты веришь в «навсегда»?",
+    "Что для тебя свобода в отношениях?",
+    "Как ты понимаешь уважение в паре?",
+    "Что тебе важно в конфликте?",
+    "Ты умеешь отпускать обиды?",
+    "Что тебя делает уязвимой?",
+    "Что тебя делает сильной?",
+    "Как ты понимаешь, что человек тебя ценит?",
+    "Что ты хочешь от отношений в долгую?",
+    "Что для тебя «здоровые отношения»?",
+    "Что тебя больше всего пугает в близости?",
+    "Ты легко открываешься?",
+    "Что тебя заставляет закрываться?",
+    "Как ты понимаешь, что можно доверять?",
+    "Что для тебя честность в паре?",
+    "Что ты никогда не скажешь, если сильно обиделась?",
+    "Что ты хочешь, чтобы я понял о тебе глубже?",
+    "Что ты хочешь понять обо мне глубже?",
+    "Что для тебя значит быть по-настоящему услышанной?",
+    "Когда тебе бывает одиноко, даже если мы вместе?",
+    "Что в тебе изменилось с тех пор, как мы вместе?",
+    "Есть ли что-то, что ты несёшь в себе и пока не готова рассказать?",
+    "Что тебе важно успеть сказать человеку, которого любишь?",
+    "Как ты понимаешь, что ты счастлива?",
+    "Что для тебя «достаточно любви»?",
+    "Что в отношениях никогда не должно быть нормой?",
+    "Как ты понимаешь, что отношения растут?",
+    "Что ты хочешь передать своей любовью?"
+  ],
+  closer: [
+    "Что тебя во мне физически привлекает больше всего?",
+    "Когда ты меня больше всего хочешь?",
+    "Что в моём поведении тебя заводит?",
+    "Что тебя быстрее всего возбуждает во мне?",
+    "Какой мой поцелуй тебе нравится больше всего?",
+    "Где ты любишь мои прикосновения?",
+    "Где ты бы хотела больше моей инициативы?",
+    "Какой мой запах тебе нравится?",
+    "Какой момент между нами самый «тёплый физически»?",
+    "Что ты чувствуешь, когда я рядом молча?",
+    "Как ты реагируешь на мои прикосновения неожиданно?",
+    "Что тебя больше всего расслабляет во мне?",
+    "Что тебя делает ближе ко мне физически?",
+    "Ты больше любишь нежность или страсть?",
+    "Ты больше про медленно или быстро в чувствах?",
+    "Где ты бы хотела больше моей смелости?",
+    "Что тебе хочется, но ты не всегда говоришь?",
+    "О чём ты думаешь, когда мы одни?",
+    "Какой у тебя идеальный вечер со мной?",
+    "Какой момент с нами самый интимный без слов?",
+    "Что тебя смущает, но нравится?",
+    "Когда ты чувствуешь максимальное притяжение ко мне?",
+    "Что во мне тебя делает слабее всего?",
+    "Какой мой взгляд для тебя самый сильный?",
+    "Что ты хочешь, чтобы я делал чаще физически?",
+    "Что для тебя самый «близкий» момент с человеком?",
+    "Когда ты чувствуешь максимальную связь со мной?",
+    "Что ты представляешь, когда скучаешь по мне?",
+    "Что тебе во мне кажется самым притягательным?",
+    "Какой момент между нами ты вспоминаешь чаще всего?",
+    "Что ты хочешь, чтобы я делал, когда ты устала?",
+    "Как ты реагируешь, когда я рядом слишком близко?",
+    "Что тебя сильнее всего тянет ко мне?",
+    "Что тебя останавливает иногда?",
+    "Что тебе хочется, но ты стесняешься сказать?",
+    "Какой у нас самый «электрический» момент?",
+    "Когда ты чувствуешь бабочки сильнее всего?",
+    "Что тебе важно в физической близости — эмоционально?",
+    "Как ты понимаешь притяжение между людьми?",
+    "Что делает меня для тебя особенным?",
+    "Когда ты чувствуешь «я хочу тебя рядом» сильнее всего?",
+    "Что тебя делает мягче рядом со мной?",
+    "Что ты хочешь, чтобы я понял без слов?",
+    "Что тебе во мне даёт ощущение желания?",
+    "Как ты понимаешь, что между нами есть химия?",
+    "Что тебе нравится в нашей близости больше всего?",
+    "Что ты чувствуешь, когда я смотрю на тебя в упор?",
+    "Как тебе нравится, когда я касаюсь тебя первым?",
+    "Есть ли что-то, что ты хотела попробовать, но не сказала?",
+    "Что для тебя самое красивое в нашей физической близости?",
+    "Когда ты чувствуешь себя самой красивой рядом со мной?",
+    "Что ты думаешь, когда засыпаешь рядом со мной?",
+    "Что тебе во мне нравится, когда ты видишь меня с другими людьми?",
+    "Что в нашей близости тебе кажется уникальным?",
+    "Что для тебя «быть желанной»?"
+  ]
+};
+
+const CAT_LABELS = {
+  easy:   "🧠 Легко",
+  us:     "❤️ Про нас",
+  deep:   "🧩 Глубже",
+  closer: "😈 Ближе"
+};
+
+// ─────────────────────────────
+//  STATE
+// ─────────────────────────────
+let currentCat    = localStorage.getItem('lq_cat') || 'easy';
+let currentQ      = null;
+let recentIndices = {};         // per-category
+let savedList     = JSON.parse(localStorage.getItem('lq_saved') || '[]');
+let savedOpen     = false;
+
+// ─────────────────────────────
+//  DOM REFS
+// ─────────────────────────────
+const themeBtn     = document.getElementById('themeBtn');
+const catBtns      = document.querySelectorAll('.cat-btn');
+const catLabel     = document.getElementById('catLabel');
+const questionText = document.getElementById('questionText');
+const cardActions  = document.getElementById('cardActions');
+const saveBtn      = document.getElementById('saveBtn');
+const copyBtn      = document.getElementById('copyBtn');
+const ctaBtn       = document.getElementById('ctaBtn');
+const savedToggle  = document.getElementById('savedToggle');
+const savedCount   = document.getElementById('savedCount');
+const savedSection = document.getElementById('savedSection');
+const savedListEl  = document.getElementById('savedList');
+const toast        = document.getElementById('toast');
+
+// ─────────────────────────────
+//  THEME
+// ─────────────────────────────
+const isDark = () => !document.body.classList.contains('light');
+
+function applyTheme(dark) {
+  document.body.classList.toggle('light', !dark);
+  themeBtn.textContent = dark ? '🌙' : '☀️';
+  localStorage.setItem('lq_theme', dark ? 'dark' : 'light');
+}
+
+const savedTheme = localStorage.getItem('lq_theme');
+applyTheme(savedTheme !== 'light');
+
+themeBtn.addEventListener('click', () => applyTheme(!isDark()));
+
+// ─────────────────────────────
+//  CATEGORIES
+// ─────────────────────────────
+function selectCat(cat) {
+  currentCat = cat;
+  localStorage.setItem('lq_cat', cat);
+  catBtns.forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
+  catLabel.textContent = CAT_LABELS[cat];
+}
+
+catBtns.forEach(b => b.addEventListener('click', () => {
+  selectCat(b.dataset.cat);
+  if (currentQ) showQuestion();   // refresh if already showing
+}));
+
+selectCat(currentCat);
+
+// ─────────────────────────────
+//  QUESTION LOGIC
+// ─────────────────────────────
+function pickQuestion(cat) {
+  const pool = QUESTIONS[cat];
+  const recent = recentIndices[cat] || [];
+  const available = pool.map((_,i)=>i).filter(i => !recent.includes(i));
+  const candidates = available.length ? available : pool.map((_,i)=>i);
+  const idx = candidates[Math.floor(Math.random() * candidates.length)];
+  // keep last 5 per category
+  const updated = [...recent, idx].slice(-5);
+  recentIndices[cat] = updated;
+  return pool[idx];
+}
+
+function showQuestion() {
+  const q = pickQuestion(currentCat);
+  currentQ = q;
+
+  // Fade out
+  questionText.classList.add('fade-out');
+
+  setTimeout(() => {
+    questionText.innerHTML = '';
+    const span = document.createElement('span');
+    span.textContent = q;
+    questionText.appendChild(span);
+    questionText.classList.remove('fade-out');
+    questionText.classList.remove('fade-in');
+    void questionText.offsetWidth; // force reflow
+    questionText.classList.add('fade-in');
+
+    // Show actions
+    cardActions.style.opacity = '1';
+    cardActions.style.pointerEvents = 'auto';
+
+    // Reset save button state
+    updateSaveBtnState();
+  }, 320);
+}
+
+// ─────────────────────────────
+//  SAVE / COPY
+// ─────────────────────────────
+function isSaved(q) { return savedList.includes(q); }
+
+function updateSaveBtnState() {
+  if (!currentQ) return;
+  const saved = isSaved(currentQ);
+  saveBtn.textContent = saved ? '❤️ Сохранено' : '❤️ Сохранить';
+  saveBtn.classList.toggle('saved', saved);
+}
+
+saveBtn.addEventListener('click', () => {
+  if (!currentQ) return;
+  if (isSaved(currentQ)) {
+    savedList = savedList.filter(q => q !== currentQ);
+    showToast('Убрано из сохранённых');
+  } else {
+    savedList.push(currentQ);
+    showToast('Сохранено ✨');
+  }
+  localStorage.setItem('lq_saved', JSON.stringify(savedList));
+  updateSaveBtnState();
+  renderSaved();
+});
+
+copyBtn.addEventListener('click', () => {
+  if (!currentQ) return;
+  navigator.clipboard.writeText(currentQ).then(() => {
+    showToast('Скопировано 📋');
+  }).catch(() => {
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = currentQ;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('Скопировано 📋');
+  });
+});
+
+ctaBtn.addEventListener('click', showQuestion);
+
+// ─────────────────────────────
+//  SAVED LIST
+// ─────────────────────────────
+function renderSaved() {
+  const count = savedList.length;
+  savedCount.textContent = count ? `(${count})` : '';
+
+  if (count === 0) {
+    savedListEl.innerHTML = '<div class="saved-empty">Здесь появятся вопросы, которые вам понравились</div>';
+    return;
+  }
+
+  savedListEl.innerHTML = savedList.map((q, i) => `
+    <div class="saved-item">
+      <p>${escHtml(q)}</p>
+      <button class="remove-btn" data-idx="${i}" title="Убрать">✕</button>
+    </div>
+  `).join('');
+
+  savedListEl.querySelectorAll('.remove-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = parseInt(btn.dataset.idx);
+      savedList.splice(idx, 1);
+      localStorage.setItem('lq_saved', JSON.stringify(savedList));
+      renderSaved();
+      updateSaveBtnState();
+    });
+  });
+}
+
+savedToggle.addEventListener('click', () => {
+  savedOpen = !savedOpen;
+  savedSection.classList.toggle('open', savedOpen);
+  savedToggle.textContent = (savedOpen ? '▲' : '♡') + ' Сохранённые вопросы ';
+  savedToggle.appendChild(savedCount);
+});
+
+renderSaved();
+
+// ─────────────────────────────
+//  TOAST
+// ─────────────────────────────
+let toastTimer;
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+}
+
+// ─────────────────────────────
+//  HELPERS
+// ─────────────────────────────
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
